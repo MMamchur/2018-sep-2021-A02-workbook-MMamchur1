@@ -6,20 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#region Additional namespaces
+using ChinookSystem.BLL;
+using ChinookSystem.Models;
+#endregion
+
+
 namespace WebApp.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly AboutServices _services;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public DatabaseVersion DbVersion { get; set; }
+
+        //on the constructor of your Model class, inject any service you require for the page
+
+        public IndexModel(ILogger<IndexModel> logger, AboutServices services)
         {
             _logger = logger;
+            _services = services;
         }
 
         public void OnGet()
         {
-
+            DbVersion = _services.GetDataVersion();
         }
     }
 }

@@ -13,6 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Data;
 
+#region Additional name spaces
+using ChinookSystem;
+#endregion
+
 namespace WebApp
 {
     public class Startup
@@ -30,6 +34,11 @@ namespace WebApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            // add our backend services
+            services.AddBackendDependencies(options => 
+                        options.UseSqlServer(
+                            Configuration.GetConnectionString("ChinookDB")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
