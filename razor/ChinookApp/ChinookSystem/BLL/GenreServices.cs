@@ -11,7 +11,7 @@ using ChinookSystem.DAL;
 
 namespace ChinookSystem.BLL
 {
-    class GenreServices
+    public class GenreServices
     {
         #region Constructor andDI variable setup
         private readonly ChinookContext _context;
@@ -35,5 +35,6 @@ namespace ChinookSystem.BLL
                     .ToList();
             return items;
         }
+        #endregion
     }
 }
