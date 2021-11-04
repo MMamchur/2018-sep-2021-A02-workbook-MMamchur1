@@ -56,5 +56,20 @@ namespace WebApp.Pages
                 Pager = new(totalcount, current);
             }
         }
+
+        public IActionResult OnPostFetch ()
+        {
+            if(string.IsNullOrWhiteSpace(partialtitle))
+            {
+                FeedBackMessage = "You must supply an album title (or part of) for searchinh";
+            }
+            return RedirectToPage(new { partialtitle = partialtitle });
+        }
+
+        public IActionResult OnPostClear()
+        {
+            partialtitle = "";
+            return RedirectToPage(new { partialtitle = partialtitle });
+        }
     }
 }

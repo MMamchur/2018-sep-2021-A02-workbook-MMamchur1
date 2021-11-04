@@ -10,7 +10,9 @@
         Enter a partial album title.:
         <input type="text" asp-for="partialtitle" placeholder="enter your album title" />
     </label>
-    <button type="submit">Fetch</button>
+    <button type="submit" asp-page-handler="Fetch">Fetch</button>
+    &nbsp;&nbsp;
+    <button type="submit" asp-page-handler="Clear">>Clear</button>
     <p style="color:firebrick; font-weight:bold;">@Model.FeedBackMessage</p>
 
     @if (Model.Albums != null)
@@ -33,7 +35,11 @@
                     @foreach (var item in Model.Albums)
                     {
                         <tr>
-                            <td>@item.Title</td>
+                            <td>
+                                <a href="/CRUDAlbum/@item.AlbumId">
+                                    @item.Title
+                                </a>
+                            </td>
                             <td>@item.ReleaseYear</td>
                             <td>@item.ReleaseLabel</td>
                         </tr>
@@ -51,7 +57,7 @@
                                     }
                                     else
                                     {
-                                        <a title="Page @pageRef.Page" asp-page="/AlbumListTableQuery" asp-route-currentpage="@pageRef.Page">@pageRef.Text</a>
+                                        <a title="Page @pageRef.Page" asp-page="/CRUDQuery" asp-route-currentpage="@pageRef.Page">@pageRef.Text</a>
                                     }
                                 }
                             }

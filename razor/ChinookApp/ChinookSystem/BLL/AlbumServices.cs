@@ -115,14 +115,11 @@ namespace ChinookSystem.BLL
                 throw new Exception("Album does not exist on file");
             }
 
-            exist = new Album
-            {
-                AlbumId = item.AlbumId,
-                Title = item.Title,
-                ArtistId = item.ArtistId,
-                ReleaseYear = item.ReleaseYear,
-                ReleaseLabel = item.ReleaseLabel
-            };
+            exist.Title = item.Title;
+            exist.ArtistId = item.ArtistId;
+            exist.ReleaseYear = item.ReleaseYear;
+            exist.ReleaseLabel = item.ReleaseLabel;
+            
             EntityEntry<Album> updating = _context.Entry(exist);
             updating.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return _context.SaveChanges();
@@ -138,14 +135,6 @@ namespace ChinookSystem.BLL
                 throw new Exception("Album already has been removed");
             }
 
-            exist = new Album
-            {
-                AlbumId = item.AlbumId,
-                Title = item.Title,
-                ArtistId = item.ArtistId,
-                ReleaseYear = item.ReleaseYear,
-                ReleaseLabel = item.ReleaseLabel
-            };
             EntityEntry<Album> deleting = _context.Entry(exist);
             deleting.State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
             return _context.SaveChanges();
