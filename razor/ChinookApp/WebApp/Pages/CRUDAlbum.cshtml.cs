@@ -24,6 +24,8 @@ namespace WebApp.Pages
         [TempData]
         public string FeedBackMessage { get; set; }
 
+        public string ErrorMessage { get; set; }
+
         public CRUDAlbumModel(AlbumServices albumservices,
                               ArtistServices artistservices)
         {
@@ -52,46 +54,94 @@ namespace WebApp.Pages
             }
         }
 
+
+        public IActionResult OnPostNew()
+        {
+            try
+            {
+                albumid = _albumservices.AddAlbum(Album);
+                FeedBackMessage = $"Album ({albumid}) has been added";
+                
+                return RedirectToPage(new { albumid = albumid });
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                Artists = _artistservices.Artist_List();
+                return Page();
+            }
+
+        }
+
         public IActionResult OnPostUpdate()
         {
             try
             {
-                int rowaffected = _albumservices.UpdateAlbum(Album);
-                if(rowaffected > 0)
+                if (albumid.HasValue)
                 {
-                    FeedBackMessage = "Album has been updated";
+                    int rowaffected = _albumservices.UpdateAlbum(Album);
+                    if (rowaffected > 0)
+                    {
+                        FeedBackMessage = "Album has been updated";
+                    }
+                    else
+                    {
+                        FeedBackMessage = "No albums updates.  Album does not exist";
+                    }
                 }
                 else
                 {
-                    FeedBackMessage = "No albums updates.  Album does not exist";
+                    FeedBackMessage = "Find an album to maintain before attempting the update";
                 }
+                return RedirectToPage(new { albumid = albumid });
             }
             catch (Exception ex)
             {
-                FeedBackMessage = ex.Message;
+                ErrorMessage = ex.Message;
+                Artists = _artistservices.Artist_List();
+                return Page();
             }
-            return RedirectToPage(new { albumid = albumid });
+            
         }
 
         public IActionResult OnPostDelete()
         {
             try
             {
-                int rowaffected = _albumservices.DeleteAlbum(Album);
-                if (rowaffected > 0)
+                if (albumid.HasValue)
                 {
-                    FeedBackMessage = "Album has been removed";
+                    int rowaffected = _albumservices.DeleteAlbum(Album);
+                    if (rowaffected > 0)
+                    {
+                        FeedBackMessage = "Album has been removed";
+                    }
+                    else
+                    {
+                        FeedBackMessage = "No albums deleted.  Album does not exist";
+                    }
+                    albumid = null;
                 }
                 else
                 {
-                    FeedBackMessage = "No albums deleted.  Album does not exist";
+                    FeedBackMessage = "Find an album to review before attempting the delete";
                 }
+                return RedirectToPage(new { albumid = albumid });
             }
             catch (Exception ex)
             {
-                FeedBackMessage = ex.Message;
+                ErrorMessage = GetInnerException(ex).Message;
+                Artists = _artistservices.Artist_List();
+                return Page();
             }
-            return RedirectToPage(new { albumid = albumid });
+        }
+
+        private Exception GetInnerException (Exception ex)
+        {
+            while(ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            return ex;
         }
     }
 }

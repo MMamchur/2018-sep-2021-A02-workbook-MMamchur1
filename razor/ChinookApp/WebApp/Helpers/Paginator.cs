@@ -8,7 +8,7 @@ namespace WebApp.Helpers
     public record PageRef(int Page, string Text);
 
     public class Paginator : IEnumerable<PageRef>
-    {
+    { 
         #region Public Properties/Fields
         public readonly int TotalItemCount;
         public readonly PageState CurrentState;

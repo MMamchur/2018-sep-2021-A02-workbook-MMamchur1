@@ -71,5 +71,9 @@ namespace WebApp.Pages
             partialtitle = "";
             return RedirectToPage(new { partialtitle = partialtitle });
         }
+        public IActionResult OnPostNew()
+        {
+            return RedirectToPage("/CRUDAlbum",new { albumid = (int?)null });
+        }
     }
 }

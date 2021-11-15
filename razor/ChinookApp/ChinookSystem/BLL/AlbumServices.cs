@@ -88,7 +88,7 @@ namespace ChinookSystem.BLL
                                             && x.ArtistId == item.ArtistId
                                             && x.ReleaseYear == item.ReleaseYear)
                                     .FirstOrDefault();
-            if (exist == null)
+            if (exist != null)
             {
                 throw new Exception("Album already exists on file");
             }
@@ -108,7 +108,7 @@ namespace ChinookSystem.BLL
         public int UpdateAlbum(AlbumItem item)
         {
             Album exist = _context.Albums
-                                    .Where(x => x.ArtistId == item.ArtistId)
+                                    .Where(x => x.AlbumId == item.AlbumId)
                                     .FirstOrDefault();
             if (exist == null)
             {
@@ -128,7 +128,7 @@ namespace ChinookSystem.BLL
         public int DeleteAlbum(AlbumItem item)
         {
             Album exist = _context.Albums
-                                    .Where(x => x.ArtistId == item.ArtistId)
+                                    .Where(x => x.AlbumId == item.AlbumId)
                                     .FirstOrDefault();
             if (exist == null)
             {
@@ -141,5 +141,4 @@ namespace ChinookSystem.BLL
         }
         #endregion
     }
-
 }
