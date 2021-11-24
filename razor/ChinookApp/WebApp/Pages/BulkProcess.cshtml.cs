@@ -14,6 +14,7 @@ namespace WebApp.Pages
     {
         #region Private variable and DI constructor
         private readonly TrackServices _trackservices;
+        private readonly PlaylistTrackServices _playlisttrackservices;
         [TempData]
         public string FeedBackMessage { get; set; }
         public bool HasFeedBack => !string.IsNullOrWhiteSpace(FeedBackMessage);
@@ -21,8 +22,10 @@ namespace WebApp.Pages
         public string ErrorMessage { get; set; }
         public bool HasError => !string.IsNullOrWhiteSpace(ErrorMessage);
 
-        public BulkProcessModel(TrackServices trackservices)
+        public BulkProcessModel(TrackServices trackservices,
+                                PlaylistTrackServices playlistservices)
         {
+            _playlisttrackservices = playlistservices;
             _trackservices = trackservices;
         }
         #endregion
@@ -52,8 +55,11 @@ namespace WebApp.Pages
                 int totalcount;
                 trackInfo = _trackservices.Tracks_GetByArtistAlbum(argsearch, argvalue, pageNumber, PAGE_SIZE, out totalcount); 
                     Pager = new Paginator(totalcount, current);
-                
+            }
 
+            if(playlistname != null)
+            {
+                pltrackInfo = _playlisttrackservices.Tracks_GetPlaylistforUser(playlistname, "HansenB");
             }
         }
 
@@ -77,8 +83,11 @@ namespace WebApp.Pages
                 if (string.IsNullOrWhiteSpace(playlistname))
                 {
                     throw new Exception("You need to have a playlist selected first");
-
                 }
+                _playlisttrackservices.PlaylistTrack_AddTrack(playlistname,
+                                                              "HansenB",
+                                                              addtrackid);
+                
                 FeedBackMessage = "adding the track";
             }
             catch(Exception ex)
