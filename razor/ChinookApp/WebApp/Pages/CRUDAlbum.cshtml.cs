@@ -100,8 +100,7 @@ namespace WebApp.Pages
                 ErrorMessage = ex.Message;
                 Artists = _artistservices.Artist_List();
                 return Page();
-            }
-            
+            } 
         }
 
         public IActionResult OnPostDelete()

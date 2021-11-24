@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace ChinookSystem.Models
 {
-    public class TrackInfo
+    public class PLTrackInfo
     {
         public int TrackId { get; set; }
-        public string Name { get; set; }
-        public string AlbumTitle { get; set; }
-        public string ArtistName { get; set; }
+        public int TrackNumber { get; set; }
+        public string Song { get; set; }
         public int Milliseconds { get; set; }
-        public decimal UnitPrice { get; set; }
-
         public TimeSpan RunningTime
         {
             get
             {
-                return TimeSpan.FromSeconds(Milliseconds);
+                return TimeSpan.FromMilliseconds(Milliseconds);
             }
         }
     }

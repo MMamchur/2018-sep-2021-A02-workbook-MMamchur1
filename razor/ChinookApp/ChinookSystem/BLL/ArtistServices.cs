@@ -23,7 +23,6 @@ namespace ChinookSystem.BLL
             _context = context;
         }
         #endregion
-
         #region Queries
         public List<SelectionList> Artist_List()
         {
@@ -35,8 +34,6 @@ namespace ChinookSystem.BLL
                 }).OrderBy(x => x.DisplayField);
             return info.ToList();
         }
-
-
         #endregion
     }
 }
